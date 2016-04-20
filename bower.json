@@ -1,0 +1,37 @@
+{
+  "name": "cow-elements",
+  "version": "0.0.1",
+  "homepage": "https://github.com/GeodanElements/cow-elements",
+  "description": "Polymer implementation for COW",
+  "keywords": [
+    "polymer",
+    "cow"
+  ],
+  "main": [
+		"gm-cow-connector.html",
+		"gm-cow-core.html",
+		"gm-cow-peers.html",
+		"gm-cow-projectlist.html",
+		"gm-cow-status.html",
+		"gm-cow-text.html",
+		"gm-cow-userlist.html"
+  ],
+  "authors": [
+    "Tom van Tilburg"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1",
+    "paper-elements": "PolymerElements/paper-elements#~1",
+    "iron-elements": "PolymerElements/iron-elements#~1",
+    "cow": "~2.0",
+    "underscore": "~1.8"
+  }
+}
