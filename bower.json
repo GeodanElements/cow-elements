@@ -8,13 +8,9 @@
     "cow"
   ],
   "main": [
-		"gm-cow-connector.html",
-		"gm-cow-core.html",
-		"gm-cow-peers.html",
-		"gm-cow-projectlist.html",
-		"gm-cow-status.html",
-		"gm-cow-text.html",
-		"gm-cow-userlist.html"
+    "cow-connector.html",
+    "cow-status.html",
+    "cow-connector.html"
   ],
   "authors": [
     "Tom van Tilburg"
@@ -31,7 +27,7 @@
     "polymer": "Polymer/polymer#~1",
     "paper-elements": "PolymerElements/paper-elements#~1",
     "iron-elements": "PolymerElements/iron-elements#~1",
-    "cow": "~2.0",
+    "cow": "~2",
     "underscore": "~1.8"
   }
 }

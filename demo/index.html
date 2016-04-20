@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+
+-->
+<html>
+<head>
+
+  <title>cow-elements demo</title>
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../cow-core.html">
+  <link rel="import" href="../cow-status.html">
+  <link rel="import" href="../cow-connector.html">
+
+</head>
+<body unresolved>
+    <template is="dom-bind" id="app">
+        <cow-core id="cow_core" config="{{cowconfig}}" core="{{cowcore}}"></cow-core>
+        <cow-status id="cow_status" core="{{cowcore}}"></cow-status>
+        <cow-connector id="cow_connector"
+            core="{{cowcore}}"
+
+            ></cow-connector>
+
+    </template>
+    <script>
+
+        var app = document.querySelector('#app');
+        app.cowconfig = {
+           url: 'websocket.geodan.nl/eagle',
+           port: 443,
+           protocol: 'wss',
+           dir: 'eagle',
+           key: 'eagle'
+        }
+
+    </script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 <link rel="import" href="./bower_components/polymer/polymer.html">
-<script src="./bower_components/underscore/underscore.js"></script>
 
-<dom-module id="gm-cow-connector">
+<dom-module id="cow-connector">
  <template>
  </template>
 </dom-module>
@@ -9,7 +8,7 @@
 <script>
 
 Polymer({
-    is: 'gm-cow-connector',
+    is: 'cow-connector',
     properties: {
     	core: {
     		type: Object,
@@ -124,8 +123,7 @@ Polymer({
     	}
     	function loadprojects(){
     		self.projects = self.core.projects().filter(function(d){
-    			//TODO: make this less dependent on location availability
-    			return !d.deleted() &&(d.data('incidentLocation') || d.data('location'));
+    			return !d.deleted();
     		})
     	}
     	this.core.projectStore().loaded.then(loadprojects);
