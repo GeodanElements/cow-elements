@@ -1,4 +1,4 @@
-<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="cow-connector">
  <template>
@@ -50,6 +50,10 @@ Polymer({
     		type: Array,
     		notify: true
     	},
+        taskitems: {
+            type: Array,
+            notify: true
+        },
     	featureitems: {
     		type: Array,
     		notify: true
@@ -95,6 +99,10 @@ Polymer({
     		self.textitems = self.project.items()
     			.filter(function(d){
     				return !d.deleted() && (d.data('beeld') || d.data('type') == 'text');
+    			});
+            self.taskitems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && (d.data('type') == 'task');
     			});
     		self.featureitems = self.project.items()
     			.filter(function(d){
