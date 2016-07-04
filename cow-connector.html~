@@ -70,10 +70,6 @@ Polymer({
     		type: Object,
     		notify: true
     	},
-    	peerlocations: {
-    		type: Array,
-    		notify: true
-    	},
     	cameras: {
     		type: Array,
     		notify: true
@@ -120,29 +116,11 @@ Polymer({
     			.filter(function(d){
     				return !d.deleted() && d.data('type') == 'chat';
     			});
-    		self.peerlocations = self.core.peers().filter(function(d){
-    				return !d.deleted() 
-    					&& d.data('geolocation') 
-    					&& d.user();
-    		}).map(function(p){
-				var loc = p.data('geolocation');
-				return {
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [loc.lng,loc.lat]
-					},
-					properties: {
-						name: p.user().data('name')
-					}
-				};
-    		});
 
     	}
 
     	this.project.itemStore().loaded.then(load);
     	this.project.itemStore().on('datachange',load);
-    	this.core.peerStore().on('datachange',load);
 
     },
     //TODO: this is depending on a CAS account. Make it independant of CAS

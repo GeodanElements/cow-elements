@@ -19,7 +19,10 @@ Connected or disconnected;
  }
  </style>
  <template>
+	 <!--
  <paper-fab mini on-click='toggle' icon='{{connIcon(connectionstatus)}}' class$='{{connClass(connectionstatus)}}'></paper-fab>
+
+ -->
  </template>
 
 </dom-module>
@@ -31,10 +34,21 @@ Polymer({
 		core: {
 			type: Object,
 			observer: '_coreChanged'
+		},
+		status: {
+			type: String,
+			notify: true,
+			value: 'Disconnected'
+		},
+		connected: {
+			type: Boolean,
+			notify: true,
+			value: false
 		}
 	},
 	connectionChanged: function(){
-		this.connectionstatus = this.core._websocket._connected;
+		this._connectionstatus = this.core._websocket._connected;
+		this.status = this._connectionstatus;
 	},
 	connClass: function(d){
 		if (d)return 'connected';
@@ -55,13 +69,19 @@ Polymer({
 		var core = this.core;
 		var self = this;
 		core._websocket.on('closed', function(){
-			self.connectionstatus = core._websocket._connected;
+			self._connectionstatus = core._websocket._connected;
+			self.status = self._connectionstatus;
+			self.connected = false;
 		});
 		core._websocket.on('error', function(){
-			self.connectionstatus = core._websocket._connected;
+			self._connectionstatus = core._websocket._connected;
+			self.status = self._connectionstatus;
+			self.connected = false;
 		});
 		core._websocket.on('connected', function(){
-			self.connectionstatus = core._websocket._connected;
+			self._connectionstatus = core._websocket._connected;
+			self.status = self._connectionstatus;
+			self.connected = true;
 		});
 	}
 

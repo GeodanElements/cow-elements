@@ -28,6 +28,7 @@
     "paper-elements": "PolymerElements/paper-elements#~1",
     "iron-elements": "PolymerElements/iron-elements#~1",
     "cow": "~2",
-    "underscore": "~1.8"
+    "underscore": "~1.8",
+    "geo-location": "ebidel/geo-location#^1.0.5"
   }
 }
