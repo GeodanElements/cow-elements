@@ -1,6 +1,6 @@
 {
   "name": "cow-elements",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/GeodanElements/cow-elements",
   "description": "Polymer implementation for COW",
   "keywords": [
@@ -10,7 +10,8 @@
   "main": [
     "cow-connector.html",
     "cow-status.html",
-    "cow-connector.html"
+    "cow-connector.html",
+    "cow-locator.html"
   ],
   "authors": [
     "Tom van Tilburg"
