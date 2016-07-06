@@ -127,6 +127,7 @@ Polymer({
     		}).map(function(p){
 				var loc = p.data('geolocation');
 				return {
+					id: p.id(),
 					type: 'Feature',
 					geometry: {
 						type: 'Point',
