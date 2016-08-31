@@ -97,7 +97,7 @@ Polymer({
     },
     _projectChanged: function(){
     	var self = this;
-    	this.startlocation = this.project.data('incidentLocation') || {lng:5.2,lat:52.2,zoom:18};
+    	this.startlocation = this.project.data('incidentLocation') || this.project.data('location')|| {lng:5.2,lat:52.2,zoom:18};
     	this.itemstore = this.project.itemStore();
     	function load(){
     		self.textitems = self.project.items()
