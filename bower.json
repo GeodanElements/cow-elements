@@ -1,6 +1,6 @@
 {
   "name": "cow-elements",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/GeodanElements/cow-elements",
   "description": "Polymer implementation for COW",
   "keywords": [
@@ -25,8 +25,8 @@
     "polymer": "Polymer/polymer#~1",
     "paper-elements": "PolymerElements/paper-elements#~1",
     "iron-elements": "PolymerElements/iron-elements#~1",
-    "cow": "Geodan/cow#^2.2",
-    "underscore": "~1.8",
+    "cow": "~2",
+    "underscore": "~1",
     "geo-location": "ebidel/geo-location#~1"
   }
 }
