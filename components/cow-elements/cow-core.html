@@ -1,0 +1,73 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="../underscore/underscore.js"></script>
+<script src="../cow/dist/cow.min.js"></script>
+
+<dom-module id="cow-core">
+ <style>
+ </style>
+ <template>
+ <content>
+ </content>
+ </template>
+
+</dom-module>
+
+<script>
+
+(function(){
+  'use strict';
+  var cowcore = window.cowcore;
+Polymer({
+    is: 'cow-core',
+    properties: {
+    	config: {
+    		type: Object,
+    		observer: '_configChanged'
+    	},
+    	core: {
+    		type: Object,
+    		notify: true
+    	},
+    	connection: Object
+    },
+    _configChanged: function(){
+    	//Check for existing connections
+    	if (cowcore){
+    		//cowcore.disconnect();
+    	}
+    	else{
+    		cowcore = new Cow.core({'herdname': this.config.key});
+    	}
+
+    	this.core = cowcore;
+    	window.cowcore = cowcore; //make global
+    	this.core.socketservers({
+    		_id: 'default',
+    		data: {
+    			protocol:this.config.protocol,
+    			ip:this.config.url,
+    			port:this.config.port,
+    			dir: this.config.dir
+    		}
+		});
+		this.core.socketserver('default');
+		this.connect();//todo: make optional
+
+
+
+    },
+    ready: function(){
+
+    },
+    connect: function(){
+    	var self = this;
+		return this.core.connect().then(function(d){
+				//todo, add event;
+				self.connection = d;
+		}, function(e){
+			console.log('Connecting error', e);
+		});
+    }
+});
+})();
+</script>

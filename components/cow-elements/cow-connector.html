@@ -1,0 +1,208 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="cow-connector">
+ <template>
+ </template>
+</dom-module>
+
+<script>
+
+Polymer({
+    is: 'cow-connector',
+    properties: {
+    	core: {
+    		type: Object,
+    		observer: '_coreChanged'
+    	},
+    	account: {
+    		type: Object
+    	},
+    	selectedproject: {
+    		type: String,
+    		observer: '_selectedprojectChanged'
+    	},
+    	project: {
+    		type: Object,
+    		notify: true,
+    		observer: '_projectChanged'
+    	},
+    	activeuser: {
+    		type: Object,
+    		notify: true
+    	},
+    	users: {
+    		type: Array,
+    		notify: true
+    	},
+    	projects: {
+    		type: Array,
+    		notify: true
+    	},
+    	items: {
+    		type: Array,
+    		notify: true
+    	},
+    	itemstore: {
+    		type: Object,
+    		notify: true
+    	},
+    	textitems: {
+    		type: Array,
+    		notify: true
+    	},
+        taskitems: {
+            type: Array,
+            notify: true
+        },
+    	featureitems: {
+    		type: Array,
+    		notify: true
+    	},
+    	iconitems: {
+    		type: Array,
+    		notify: true
+    	},
+    	chatitems: {
+    		type: Array,
+    		notify: true
+    	},
+    	layeritems: {
+    		type: Array,
+    		notify: true
+    	},
+    	startlocation: {
+    		type: Object,
+    		notify: true
+    	},
+    	peerlocations: {
+    		type: Array,
+    		notify: true
+    	},
+    	cameras: {
+    		type: Array,
+    		notify: true
+    	}
+    },
+    observers: [
+    	'accountChanged(core,account)'
+    ],
+    ready: function(){
+    	var self = this;
+
+    },
+    _coreChanged: function(){
+    	var self = this;
+    	this.core.messenger().on('command',function(d){
+    		if (d.payload.command == 'ZoomToBbox'){
+    			console.log('firing');
+    			self.fire('zoomto',d.payload.data);
+    		}
+		});
+    },
+    _projectChanged: function(){
+    	var self = this;
+    	this.startlocation = this.project.data('incidentLocation') || this.project.data('location')|| {lng:5.2,lat:52.2,zoom:18};
+    	this.itemstore = this.project.itemStore();
+    	function load(){
+    		self.textitems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && (d.data('beeld') || d.data('type') == 'text');
+    			});
+            self.taskitems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && (d.data('type') == 'task');
+    			});
+    		self.featureitems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && d.data('type') == 'feature';
+    			});
+    		self.iconitems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && d.data('type') == 'icon';
+    			});
+    		self.chatitems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && d.data('type') == 'chat';
+    			});
+    		self.layeritems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && d.data('type') == 'layer';
+    			});
+    		self.peerlocations = self.core.peers().filter(function(d){
+    				return !d.deleted() 
+    					&& d.data('geolocation') 
+    					&& d.user();
+    		}).map(function(p){
+				var loc = p.data('geolocation');
+				return {
+					id: p.id(),
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [loc.lng,loc.lat]
+					},
+					properties: {
+						name: p.user().data('name')
+					}
+				};
+    		});
+
+    	}
+
+    	this.project.itemStore().loaded.then(load);
+    	this.project.itemStore().on('datachange',load);
+    	this.core.peerStore().on('datachange',load);
+
+    },
+    //TODO: this is depending on a CAS account. Make it independant of CAS
+    accountChanged: function(){
+    	var self = this;
+    	function loadusers(){
+
+    	}
+    	function loadprojects(){
+    		self.projects = self.core.projects().filter(function(d){
+    			return !d.deleted();
+    		})
+    	}
+    	this.core.projectStore().loaded.then(loadprojects);
+    	this.core.projectStore().on('datachange',loadprojects);
+
+    	function setuser(){
+    		if (self.account.id){
+    			var user = self.core.user(self.account.id);
+    			if (!user)
+    			{
+					//if user is not know to cow yet, create it
+					self.core.users({_id:self.account.id})
+						.data('name',self.account.displayName);
+						self.core.user(self.account.id);
+				}
+				self.activeuser = self.core.user();
+    		}
+    		else {
+    			self.activeuser = null;
+    		}
+    	}
+    	this.core.userStore().loaded.then(setuser);
+
+    	function loadusers(){
+    		self.users = self.core.users().filter(function(d){
+    			return !d.deleted();
+    		});
+    		self.cameras = self.core.activeUsers().filter(function(d){
+    				return !d.deleted()
+    					&& d.data('type') == 'onvifcam';
+    		});
+    	}
+    	this.core.userStore().loaded.then(loadusers);
+    	this.core.userStore().on('datachange', loadusers);
+    	this.core.peerStore().on('datachange',loadusers);
+
+    },
+    _selectedprojectChanged: function(){
+    	this.core.project(this.selectedproject.toString());
+		this.project = this.core.project();
+    }
+});
+</script>

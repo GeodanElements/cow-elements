@@ -1,0 +1,48 @@
+<!--
+Keep the current location updated in the current cow peer object
+
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../geo-location/geo-location.html">
+
+<dom-module id="cow-locator">
+ <style>
+ 
+ </style>
+ <template>
+<geo-location watch-pos high-accuracy 
+	latitude="{{lat}}"
+    longitude="{{lng}}"></geo-location>
+ </template>
+
+</dom-module>
+
+<script>
+Polymer({
+	is: 'cow-locator',
+	properties: {
+		core: {
+			type: Object
+		},
+		lat: {
+			type: Number,
+			notify: true
+		},
+		lng: {
+			type: Number,
+			notify: true
+		}
+	},
+	observers: [
+		'_locationChanged(core,lat,lng)'
+	],
+	ready: function(){
+	},
+	_locationChanged: function(core,lat,lng){
+		if (core.peer()){
+			core.peer().data('geolocation',{lat: lat, lng: lng}).sync();
+		}
+	}
+});
+</script>
