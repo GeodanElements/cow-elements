@@ -66,6 +66,10 @@ Polymer({
     		type: Array,
     		notify: true
     	},
+    	layeritems: {
+    		type: Array,
+    		notify: true
+    	},
     	startlocation: {
     		type: Object,
     		notify: true
@@ -119,6 +123,10 @@ Polymer({
     		self.chatitems = self.project.items()
     			.filter(function(d){
     				return !d.deleted() && d.data('type') == 'chat';
+    			});
+    		self.layeritems = self.project.items()
+    			.filter(function(d){
+    				return !d.deleted() && d.data('type') == 'layer';
     			});
     		self.peerlocations = self.core.peers().filter(function(d){
     				return !d.deleted() 
